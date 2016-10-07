@@ -1,0 +1,272 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: What Does The Fox Says API
+host: localhost:3000
+basePath: /api/v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: Question
+  - name: User
+  - name: Answer
+paths:
+  /questions:
+    x-swagger-router-controller: questions
+    get:
+      tags:
+        - Question
+      description: Returns All Questions
+      operationId: getAllQuestions
+      responses:
+        "200":
+          description: Succcess
+          schema:
+            $ref: '#/definitions/AllQuestionsResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /questions/{question_id}:
+    x-swagger-router-controller: questions
+    get:
+      tags:
+        - Question
+      description: Returns a single Question
+      operationId: getSingleQuestion
+      parameters:
+        - name: question_id
+          in: path
+          description: question id
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Succcess
+          schema:
+            $ref: '#/definitions/SingleQuestionResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /users:
+    x-swagger-router-controller: users
+    post:
+      tags:
+        - User
+      description: Create a non-login or login User
+      operationId: createUser
+      parameters:
+        - name: body
+          in: body
+          description: user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/AccessTokenResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    put:
+      tags:
+        - User
+      description: Update a non-login User to a login User
+      operationId: updateUser
+      parameters:
+        - name: body
+          in: body
+          description: user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/AccessTokenResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /token:
+    x-swagger-router-controller: users
+    post:
+      tags:
+        - User
+      description: Return access token
+      operationId: createToken
+      parameters:
+        - name: body
+          in: body
+          description: user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/AccessTokenResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /answers:
+    x-swagger-router-controller: answers
+    post:
+      tags:
+        - Answer
+      description: Create a new Answer
+      operationId: createAnswer
+      parameters:
+        - name: body
+          in: body
+          description: answer
+          required: true
+          schema:
+            $ref: '#/definitions/Answer'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/SingleAnswerResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      tags:
+        - Answer
+      description: Returns all Answer of User
+      operationId: getAnswers
+      parameters:
+        - name: user_id
+          in: query
+          description: user id
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/AnswersResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+definitions:
+  Question:
+    required:
+      - q
+    properties:
+      id:
+        type: integer
+      q:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
+  User:
+    required:
+      - uuid
+    properties:
+      uuid:
+        type: string
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        format: password
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
+  Answer:
+    required:
+      - question_id
+      - user_id
+      - a
+      - created_at
+    properties:
+      question_id:
+        type: integer
+      user_id:
+        type: integer
+      a:
+        type: string
+      created_at:
+        type: string
+        format: date
+      updated_at:
+        type: string
+        format: date-time
+
+  AllQuestionsResponse:
+    required:
+      - questions
+    properties:
+      questions:
+        type: array
+        items:
+          $ref: '#/definitions/Question'
+  SingleQuestionResponse:
+    required:
+      - question
+    properties:
+      question:
+        $ref: '#/definitions/Question'
+  AccessTokenResponse:
+    required:
+      - user
+      - access_token
+    properties:
+      user:
+        $ref: '#/definitions/User'
+      access_token:
+        type: string
+  AnswersResponse:
+    required:
+      - answers
+    properties:
+      answers:
+        type: array
+        items:
+          $ref: '#/definitions/Answer'
+  SingleAnswerResponse:
+    required:
+      - answers
+    properties:
+      answers:
+        $ref: '#/definitions/Answer'
+
+  ErrorResponse:
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
