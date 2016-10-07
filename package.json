@@ -36,6 +36,5 @@
     "build": "babel api --out-dir build",
     "serve": "node ./build/app.js",
     "development": "nodemon --exec babel-node api/app.js",
-    "test": "swagger project test"
   }
 }
