@@ -151,7 +151,7 @@ paths:
       tags:
         - Answer
       description: Returns all Answer of User
-      operationId: getMultiAnswers
+      operationId: getAnswers
       parameters:
         - name: user_id
           in: query
@@ -162,50 +162,34 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/MultiAnswersResponse'
+            $ref: '#/definitions/AnswersResponse'
         default:
           description: Error
           schema:
             $ref: '#/definitions/ErrorResponse'
-
-  /answers/{answer_id}:
-    x-swagger-router-controller: answers
-    get:
-      tags:
-        - Answer
-      description: Returns a single Answer
-      operationId: getSingleAnswer
-      parameters:
-        - name: answer_id
-          in: path
-          description: answer id
-          required: true
-          type: integer
-      responses:
-        "200":
-          description: Succcess
-          schema:
-            $ref: '#/definitions/SingleAnswerResponse'
-        default:
-          description: Error
-          schema:
-            $ref: '#/definitions/ErrorResponse'
-
 
 definitions:
   Question:
     required:
       - q
     properties:
+      id:
+        type: integer
       q:
         type: string
       created_at:
         type: string
-        format: date
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
   User:
     required:
       - uuid
     properties:
+      uuid:
+        type: string
       email:
         type: string
         format: email
@@ -215,13 +199,16 @@ definitions:
       created_at:
         type: string
         format: date-time
-      uuid:
+      updated_at:
         type: string
+        format: date-time
+
   Answer:
     required:
       - question_id
       - user_id
       - a
+      - created_at
     properties:
       question_id:
         type: integer
@@ -229,6 +216,12 @@ definitions:
         type: integer
       a:
         type: string
+      created_at:
+        type: string
+        format: date
+      updated_at:
+        type: string
+        format: date-time
 
   AllQuestionsResponse:
     required:
@@ -253,13 +246,7 @@ definitions:
         $ref: '#/definitions/User'
       access_token:
         type: string
-  SingleAnswerResponse:
-    required:
-      - answer
-    properties:
-      answer:
-        $ref: '#/definitions/Answer'
-  MultiAnswersResponse:
+  AnswersResponse:
     required:
       - answers
     properties:
@@ -267,6 +254,12 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Answer'
+  SingleAnswerResponse:
+    required:
+      - answers
+    properties:
+      answers:
+        $ref: '#/definitions/Answer'
 
   ErrorResponse:
     required:

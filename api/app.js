@@ -1,19 +1,9 @@
 import express from 'express';
 import SwaggerExpress from 'swagger-express-mw';
 import SwaggerUI from 'swagger-tools/middleware/swagger-ui';
-
-import mongoose from 'mongoose';
 import util from 'util';
 
-import { db_address } from './const.json';
-
-mongoose.Promise = Promise;
-mongoose.connect(util.format('mongodb://%s', db_address));
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('DB connected');
-});
+import { sequelize } from './models';
 
 const app = express();
 const API_VERSION = 'v1';
@@ -35,9 +25,12 @@ SwaggerExpress.create(config, (err, swaggerExpress) => {
   // install middleware
   swaggerExpress.register(app);
 
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(util.format('Serve on port %d', port));
+  sequelize.sync({ force: true }).then(() => {
+    console.log('db connected');
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(util.format('Serve on port %d', port));
+    });
   });
 });
 

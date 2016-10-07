@@ -10,7 +10,9 @@
   "dependencies": {
     "bcrypt": "^0.8.7",
     "express": "^4.12.3",
-    "mongoose": "^4.6.0",
+    "pg": "^6.1.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.24.3",
     "swagger-express-mw": "^0.1.0",
     "swagger-tools": "^0.10.1",
     "util": "^0.10.3"
