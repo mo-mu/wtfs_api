@@ -35,6 +35,6 @@
     "edit": "swagger_swagger_fileName=api/swagger/v1.yaml swagger project edit",
     "build": "babel api --out-dir build",
     "serve": "node ./build/app.js",
-    "development": "nodemon --exec babel-node api/app.js",
+    "development": "nodemon --exec babel-node api/app.js"
   }
 }
