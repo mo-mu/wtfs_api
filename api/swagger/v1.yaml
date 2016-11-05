@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: 1.0.0
   title: What Does The Fox Says API
-host: localhost:3000
+host: http://52.78.172.143/
 basePath: /api/v1
 schemes:
   - http
