@@ -1,7 +1,6 @@
 import { Question } from './../models';
 
 const getAllQuestions = (req, res) => {
-  console.log(Question);
   Question.findAll()
   .then(questions => res.json({
     questions,

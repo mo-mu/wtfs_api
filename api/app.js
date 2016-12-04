@@ -25,7 +25,7 @@ SwaggerExpress.create(config, (err, swaggerExpress) => {
   // install middleware
   swaggerExpress.register(app);
 
-  sequelize.sync({ force: true }).then(() => {
+  sequelize.sync({ force: false }).then(() => {
     console.log('db connected');
     const port = process.env.PORT || 3000;
     app.listen(port, () => {

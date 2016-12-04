@@ -10,15 +10,6 @@ const sequelize = new Sequelize('wtfs', 'ubuntu', 'ubuntu', {
 });
 
 const User = sequelize.define('User', {
-  email: {
-    type: Sequelize.STRING,
-    allowNull: true,
-    unique: true,
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
   uuid: {
     type: Sequelize.UUID,
     allowNull: false,
