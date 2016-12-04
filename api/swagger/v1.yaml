@@ -3,6 +3,7 @@ info:
   version: 1.0.0
   title: What Does The Fox Says API
 host: 52.78.172.143
+# host: localhost:3000
 basePath: /api/v1
 schemes:
   - http
@@ -49,7 +50,7 @@ paths:
         "200":
           description: Succcess
           schema:
-            $ref: '#/definitions/SingleQuestionResponse'
+            $ref: '#/definitions/Question'
         default:
           description: Error
           schema:
@@ -97,7 +98,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/SingleAnswerResponse'
+            $ref: '#/definitions/Answer'
         default:
           description: Error
           schema:
@@ -117,7 +118,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/AnswersResponse'
+            $ref: '#/definitions/Answer'
         default:
           description: Error
           schema:
@@ -151,12 +152,11 @@ definitions:
       - question_id
       - user_uuid
       - a
-      - created_at
     properties:
       question_id:
         type: integer
       user_uuid:
-        type: integer
+        type: string
       a:
         type: string
       created_at:
@@ -167,33 +167,9 @@ definitions:
         format: date-time
 
   AllQuestionsResponse:
-    required:
-      - questions
-    properties:
-      questions:
-        type: array
-        items:
-          $ref: '#/definitions/Question'
-  SingleQuestionResponse:
-    required:
-      - question
-    properties:
-      question:
-        $ref: '#/definitions/Question'
-  AnswersResponse:
-    required:
-      - answers
-    properties:
-      answers:
-        type: array
-        items:
-          $ref: '#/definitions/Answer'
-  SingleAnswerResponse:
-    required:
-      - answers
-    properties:
-      answers:
-        $ref: '#/definitions/Answer'
+    type: array
+    items:
+      $ref: '#/definitions/Question'
 
   ErrorResponse:
     required:

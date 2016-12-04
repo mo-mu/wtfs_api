@@ -2,13 +2,13 @@ import { User } from './../models';
 
 // POST /users
 const createUser = (req, res) => {
+  console.log(req.body.uuid);
+
   User.build({
-    uuid: req.swagger.body.uuid,
+    uuid: req.body.uuid,
   })
   .save()
-  .then(user => res.json({
-    uuid: user.uuid,
-  }))
+  .then(user => res.json(user))
   .catch(e => res.status(400).json({ 
     message: e,
   }));

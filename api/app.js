@@ -2,6 +2,7 @@ import express from 'express';
 import SwaggerExpress from 'swagger-express-mw';
 import SwaggerUI from 'swagger-tools/middleware/swagger-ui';
 import util from 'util';
+import bodyParser from 'body-parser';
 
 import { sequelize } from './models';
 
@@ -12,6 +13,8 @@ const config = {
   appRoot: __dirname, // required config'
   swaggerFile: util.format('api/swagger/%s.yaml', API_VERSION),
 };
+
+app.use(bodyParser.json());
 
 SwaggerExpress.create(config, (err, swaggerExpress) => {
   if (err) { throw err; }

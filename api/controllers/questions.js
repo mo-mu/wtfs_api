@@ -2,18 +2,17 @@ import { Question } from './../models';
 
 const getAllQuestions = (req, res) => {
   Question.findAll()
-  .then(questions => res.json({
-    questions,
-  }));
+  .then(questions => res.json(questions));
 };
 
 const getSingleQuestion = (req, res) => {
+  console.log(req.swagger.params.question_id.value);
   Question.find({
-    id: req.swagger.params.question_id,
+    where: {
+      id: req.swagger.params.question_id.value,
+    }
   })
-  .then(question => res.json({
-    question,
-  }));
+  .then(question => res.json(question));
 };
 
 export {
